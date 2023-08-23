@@ -1,0 +1,34 @@
+{
+    "properties": {
+        "displayName": "Inherit Tags from Parent",
+        "description": "This policy automatically inherits tags from the parent resource.",
+        "metadata": {
+            "category": "Tags"
+        },
+        "parameters": {},
+        "policyRule": {
+            "if": {
+                "field": "tags",
+                "exists": "false"
+            },
+            "then": {
+                "effect": "modify",
+                "details": {
+                    "roleDefinitionIds": [
+                        "/providers/Microsoft.Authorization/roleDefinitions/<RoleDefinitionId>"
+                    ],
+                    "operations": [
+                        {
+                            "operation": "add",
+                            "field": "tags",
+                            "value": {
+                                "inheritedTag1": "[resourceGroup().tags['parentTag1']]",
+                                "inheritedTag2": "[resourceGroup().tags['parentTag2']]"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
